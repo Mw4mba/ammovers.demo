@@ -81,7 +81,7 @@ export function Footer({ secondaryColor }: { secondaryColor: string }) {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
               <h3 className="text-xl font-bold mb-4">AM<span style={{color: secondaryColor}}>movers</span></h3>
-            <p className="text-gray-400">Your trusted partner in global logistics, delivering excellence and reliability.</p>
+            <p className="text-gray-400">Your trusted partner in  logistics, delivering excellence and reliability.</p>
           </div>
           <div>
             <h4 className="font-semibold text-lg mb-4">Quick Links</h4>
@@ -96,7 +96,7 @@ export function Footer({ secondaryColor }: { secondaryColor: string }) {
             <h4 className="font-semibold text-lg mb-4">Contact Us</h4>
             <ul className="space-y-2 text-gray-400">
               <li>Email: contact@AMmovers.com</li>
-              <li>Phone: +1 (234) 567-890</li>
+              <li>Phone: 078 XXX-890</li>
               <li>Address: 123 Logistics Ave, Global City</li>
             </ul>
           </div>
