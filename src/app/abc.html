@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LogiFlow - Global Logistics Solutions</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        :root {
+            --primary-color: #082463;
+            --secondary-color: #e85620;
+            --light-bg: #f8fafc;
+            --white: #ffffff;
+            --gray-600: #64748b;
+            --gray-800: #1e293b;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        .header {
+            background: var(--white);
+            box-shadow: 0 2px 20px rgba(8, 36, 99, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--gray-800);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--secondary-color);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--secondary-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .cta-button {
+            background: var(--secondary-color);
+            color: var(--white);
+            padding: 0.7rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-button:hover {
+            background: #d14419;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(232, 86, 32, 0.3);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #0f3a7a 100%);
+            color: var(--white);
+            padding: 120px 0 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><polygon fill="%23ffffff05" points="0,0 1000,300 1000,1000 0,700"/></svg>');
+            background-size: cover;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .hero-text p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--secondary-color);
+            display: block;
+        }
+
+        .hero-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .truck-animation {
+            width: 400px;
+            height: 200px;
+            background: var(--secondary-color);
+            border-radius: 20px;
+            position: relative;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .truck-animation::before {
+            content: '🚛';
+            font-size: 4rem;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Services Section */
+        .services {
+            padding: 80px 0;
+            background: var(--light-bg);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            color: var(--gray-600);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: var(--white);
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--secondary-color);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .service-card:hover::before {
+            transform: translateX(0);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            color: var(--secondary-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .service-card h3 {
+            font-size: 1.4rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .service-card p {
+            color: var(--gray-600);
+            line-height: 1.6;
+        }
+
+        /* Tracking Section */
+        .tracking {
+            padding: 80px 0;
+            background: var(--primary-color);
+            color: var(--white);
+        }
+
+        .tracking-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .tracking-form {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2.5rem;
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+        }
+
+        .tracking-form h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--white);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            background: var(--white);
+            color: var(--primary-color);
+        }
+
+        .form-group input::placeholder {
+            color: var(--gray-600);
+        }
+
+        .track-button {
+            background: var(--secondary-color);
+            color: var(--white);
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .track-button:hover {
+            background: #d14419;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--gray-800);
+            color: var(--white);
+            padding: 60px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+        }
+
+        .footer-section h4 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section ul li a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section ul li a:hover {
+            color: var(--secondary-color);
+        }
+
+        .footer-bottom {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid #374151;
+            text-align: center;
+            color: #9ca3af;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .tracking-content {
+                grid-template-columns: 1fr;
+            }
+
+            .truck-animation {
+                width: 300px;
+                height: 150px;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .mobile-menu {
+            display: none;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        function App() {
+            const [isScrolled, setIsScrolled] = useState(false);
+
+            useEffect(() => {
+                const handleScroll = () => {
+                    setIsScrolled(window.scrollY > 50);
+                };
+
+                window.addEventListener('scroll', handleScroll);
+                return () => window.removeEventListener('scroll', handleScroll);
+            }, []);
+
+            return (
+                <div>
+                    {/* Header */}
+                    <header className={`header ${isScrolled ? 'scrolled' : ''}`}>
+                        <div className="container">
+                            <nav className="nav">
+                                <a href="#" className="logo">LogiFlow</a>
+                                <ul className="nav-links">
+                                    <li><a href="#home">Home</a></li>
+                                    <li><a href="#services">Services</a></li>
+                                    <li><a href="#tracking">Tracking</a></li>
+                                    <li><a href="#about">About</a></li>
+                                    <li><a href="#contact">Contact</a></li>
+                                </ul>
+                                <a href="#contact" className="cta-button">Get Quote</a>
+                                <div className="mobile-menu">
+                                    <i className="fas fa-bars"></i>
+                                </div>
+                            </nav>
+                        </div>
+                    </header>
+
+                    {/* Hero Section */}
+                    <section className="hero" id="home">
+                        <div className="container">
+                            <div className="hero-content">
+                                <div className="hero-text">
+                                    <h1>Global Logistics Made Simple</h1>
+                                    <p>Streamline your supply chain with our cutting-edge logistics solutions. From warehousing to last-mile delivery, we've got you covered worldwide.</p>
+                                    <div className="hero-stats">
+                                        <div className="stat-item">
+                                            <span className="stat-number">150+</span>
+                                            <span>Countries</span>
+                                        </div>
+                                        <div className="stat-item">
+                                            <span className="stat-number">99.9%</span>
+                                            <span>On-Time Rate</span>
+                                        </div>
+                                        <div className="stat-item">
+                                            <span className="stat-number">24/7</span>
+                                            <span>Support</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="hero-visual">
+                                    <div className="truck-animation"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Services Section */}
+                    <section className="services" id="services">
+                        <div className="container">
+                            <div className="section-header">
+                                <h2>Our Services</h2>
+                                <p>Comprehensive logistics solutions tailored to your business needs</p>
+                            </div>
+                            <div className="services-grid">
+                                <div className="service-card">
+                                    <div className="service-icon">
+                                        <i className="fas fa-shipping-fast"></i>
+                                    </div>
+                                    <h3>Express Delivery</h3>
+                                    <p>Lightning-fast delivery services with real-time tracking and guaranteed delivery times for urgent shipments.</p>
+                                </div>
+                                <div className="service-card">
+                                    <div className="service-icon">
+                                        <i className="fas fa-warehouse"></i>
+                                    </div>
+                                    <h3>Warehousing</h3>
+                                    <p>State-of-the-art warehouse facilities with advanced inventory management and distribution capabilities.</p>
+                                </div>
+                                <div className="service-card">
+                                    <div className="service-icon">
+                                        <i className="fas fa-globe-americas"></i>
+                                    </div>
+                                    <h3>International Freight</h3>
+                                    <p>Seamless international shipping solutions with customs clearance and documentation support.</p>
+                                </div>
+                                <div className="service-card">
+                                    <div className="service-icon">
+                                        <i className="fas fa-chart-line"></i>
+                                    </div>
+                                    <h3>Supply Chain Analytics</h3>
+                                    <p>Advanced analytics and reporting tools to optimize your supply chain performance and reduce costs.</p>
+                                </div>
+                                <div className="service-card">
+                                    <div className="service-icon">
+                                        <i className="fas fa-truck"></i>
+                                    </div>
+                                    <h3>Fleet Management</h3>
+                                    <p>Complete fleet management solutions with GPS tracking, route optimization, and maintenance scheduling.</p>
+                                </div>
+                                <div className="service-card">
+                                    <div className="service-icon">
+                                        <i className="fas fa-box"></i>
+                                    </div>
+                                    <h3>E-commerce Fulfillment</h3>
+                                    <p>End-to-end e-commerce fulfillment services including picking, packing, and last-mile delivery.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Tracking Section */}
+                    <section className="tracking" id="tracking">
+                        <div className="container">
+                            <div className="tracking-content">
+                                <div>
+                                    <h2>Track Your Shipment</h2>
+                                    <p>Get real-time updates on your shipment status with our advanced tracking system. Enter your tracking number below to see the current location and estimated delivery time.</p>
+                                    <ul style={{marginTop: '2rem', paddingLeft: '1.5rem'}}>
+                                        <li>Real-time location updates</li>
+                                        <li>Delivery notifications</li>
+                                        <li>Proof of delivery</li>
+                                        <li>Shipment history</li>
+                                    </ul>
+                                </div>
+                                <div className="tracking-form">
+                                    <h3>Track Package</h3>
+                                    <form onSubmit={(e) => e.preventDefault()}>
+                                        <div className="form-group">
+                                            <input 
+                                                type="text" 
+                                                placeholder="Enter tracking number" 
+                                                required 
+                                            />
+                                        </div>
+                                        <button type="submit" className="track-button">
+                                            <i className="fas fa-search" style={{marginRight: '0.5rem'}}></i>
+                                            Track Shipment
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Footer */}
+                    <footer className="footer">
+                        <div className="container">
+                            <div className="footer-content">
+                                <div className="footer-section">
+                                    <h4>LogiFlow</h4>
+                                    <p>Leading the future of global logistics with innovative solutions and unmatched reliability.</p>
+                                    <div style={{marginTop: '1rem'}}>
+                                        <i className="fab fa-facebook" style={{margin: '0 10px', fontSize: '1.5rem', color: '#3b82f6'}}></i>
+                                        <i className="fab fa-twitter" style={{margin: '0 10px', fontSize: '1.5rem', color: '#1da1f2'}}></i>
+                                        <i className="fab fa-linkedin" style={{margin: '0 10px', fontSize: '1.5rem', color: '#0077b5'}}></i>
+                                        <i className="fab fa-instagram" style={{margin: '0 10px', fontSize: '1.5rem', color: '#e4405f'}}></i>
+                                    </div>
+                                </div>
+                                <div className="footer-section">
+                                    <h4>Services</h4>
+                                    <ul>
+                                        <li><a href="#">Express Delivery</a></li>
+                                        <li><a href="#">Warehousing</a></li>
+                                        <li><a href="#">International Freight</a></li>
+                                        <li><a href="#">Supply Chain Analytics</a></li>
+                                        <li><a href="#">Fleet Management</a></li>
+                                    </ul>
+                                </div>
+                                <div className="footer-section">
+                                    <h4>Company</h4>
+                                    <ul>
+                                        <li><a href="#">About Us</a></li>
+                                        <li><a href="#">Careers</a></li>
+                                        <li><a href="#">Press</a></li>
+                                        <li><a href="#">Partners</a></li>
+                                        <li><a href="#">Sustainability</a></li>
+                                    </ul>
+                                </div>
+                                <div className="footer-section">
+                                    <h4>Contact</h4>
+                                    <ul>
+                                        <li><a href="mailto:info@logiflow.com">info@logiflow.com</a></li>
+                                        <li><a href="tel:+1234567890">+1 (234) 567-890</a></li>
+                                        <li>123 Logistics Ave<br />Business District<br />New York, NY 10001</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div className="footer-bottom">
+                                <p>&copy; 2025 LogiFlow. All rights reserved. | Privacy Policy | Terms of Service</p>
+                            </div>
+                        </div>
+                    </footer>
+                </div>
+            );
+        }
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>

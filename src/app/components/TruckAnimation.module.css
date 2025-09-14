@@ -1,0 +1,198 @@
+/* TruckAnimation.module.css */
+
+.animationContainer {
+  width: 100%;
+  height: 400px;
+  position: relative;
+  background: linear-gradient(to bottom, #87CEEB 0%, #87CEEB 60%, #90EE90 60%, #90EE90 100%);
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.road {
+  position: absolute;
+  bottom: 80px;
+  left: 0;
+  width: 100%;
+  height: 120px;
+  background: #4A4A4A;
+  border-top: 4px solid #666;
+  border-bottom: 4px solid #333;
+  overflow: hidden;
+}
+
+.roadMarkings {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: transparent;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.marking {
+  width: 60px;
+  height: 4px;
+  background: #FFF;
+  border-radius: 2px;
+  animation: roadMarkingMove 2s linear infinite;
+}
+
+.marking:nth-child(2) { animation-delay: -0.4s; }
+.marking:nth-child(3) { animation-delay: -0.8s; }
+.marking:nth-child(4) { animation-delay: -1.2s; }
+.marking:nth-child(5) { animation-delay: -1.6s; }
+
+@keyframes roadMarkingMove {
+  0% { transform: translateX(100vw); }
+  100% { transform: translateX(-100px); }
+}
+
+.truck {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  width: 400px;
+  height: 200px;
+  transform: translateX(-120%);
+  z-index: 10;
+}
+
+.truckImage {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.2));
+}
+
+.animating .truckImage {
+  animation: truckBounce 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes truckBounce {
+  0% { transform: translateY(0px); }
+  100% { transform: translateY(-3px); }
+}
+
+/* Exhaust smoke animation */
+.exhaust {
+  position: absolute;
+  top: 30px;
+  left: -20px;
+  width: 30px;
+  height: 30px;
+  z-index: 5;
+}
+
+.smoke {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: #ccc;
+  border-radius: 50%;
+  opacity: 0;
+}
+
+.animating .smoke {
+  animation: smokeAnimation 1.5s ease-out infinite;
+}
+
+.smoke:nth-child(1) { animation-delay: 0s; }
+.smoke:nth-child(2) { animation-delay: 0.3s; }
+.smoke:nth-child(3) { animation-delay: 0.6s; }
+
+@keyframes smokeAnimation {
+  0% {
+    transform: translate(0, 0) scale(0.5);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translate(-10px, -20px) scale(0.8);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translate(-20px, -40px) scale(1.2);
+    opacity: 0;
+  }
+}
+
+/* Control buttons */
+.controls {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+}
+
+.startButton {
+  background: #e85620;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+}
+
+.startButton:hover:not(:disabled) {
+  background: #d14419;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(232, 86, 32, 0.3);
+}
+
+.startButton:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .animationContainer {
+    height: 300px;
+  }
+  
+  .truck {
+    width: 300px;
+    height: 150px;
+  }
+  
+  .road {
+    height: 80px;
+    bottom: 60px;
+  }
+  
+  .roadMarkings {
+    height: 3px;
+  }
+  
+  .marking {
+    width: 40px;
+    height: 3px;
+  }
+}
+
+@media (max-width: 480px) {
+  .animationContainer {
+    height: 250px;
+  }
+  
+  .truck {
+    width: 250px;
+    height: 125px;
+  }
+  
+  .road {
+    height: 60px;
+    bottom: 40px;
+  }
+}
