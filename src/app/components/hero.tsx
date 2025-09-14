@@ -5,7 +5,7 @@ export function HeroSection({ primaryColor, secondaryColor }:{ primaryColor: str
     <section id="home" className="relative text-white min-h-[60vh] md:min-h-[80vh] flex items-center" style={{ backgroundColor: primaryColor }}>
       <div className="absolute inset-0 bg-black opacity-40"></div>
       {/* You can add a background image here */}
-      {/* <img src="https://placehold.co/1920x1080/082463/e85620?text=Logistics+Background" alt="Logistics" className="absolute inset-0 w-full h-full object-cover"/> */}
+       <img src="./truck.png" alt="Logistics" className="absolute inset-0 w-full h-full object-cover"/> 
       <div className="container mx-auto px-6 text-center relative z-10">
         <h1 className="text-4xl md:text-6xl font-extrabold leading-tight mb-4">
           Your Partner in Global Logistics
