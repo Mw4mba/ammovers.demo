@@ -2,7 +2,7 @@ import React from "react"
 import { useFormContext } from "react-hook-form"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
-import { Checkbox } from "@/components/ui/checkbox" // We need to create this or use native input for now
+
 import { Shield, Package, Wrench } from "lucide-react"
 
 // Simple native checkbox wrapper for now to avoid creating another component file if not strictly needed, 

@@ -39,19 +39,24 @@ export function Testimonials() {
                     {testimonials.map((testimonial, index) => (
                         <div
                             key={index}
-                            className="flex flex-col p-6 bg-card rounded-xl border shadow-sm"
+                            className="flex flex-col p-6 bg-blue-900/90 text-white rounded-xl shadow-lg backdrop-blur-sm border-none"
                         >
-                            <div className="flex mb-4">
+                            <div className="flex mb-4 gap-1">
                                 {[...Array(testimonial.rating)].map((_, i) => (
-                                    <Star key={i} className="h-5 w-5 text-secondary fill-secondary" />
+                                    <Star key={i} className="h-5 w-5 fill-primary text-primary" />
                                 ))}
                             </div>
-                            <p className="flex-1 text-muted-foreground mb-6">
+                            <blockquote className="flex-1 text-blue-50 mb-6 text-lg leading-relaxed">
                                 &quot;{testimonial.content}&quot;
-                            </p>
-                            <div className="mt-auto">
-                                <p className="font-semibold">{testimonial.name}</p>
-                                <p className="text-sm text-muted-foreground">{testimonial.role}</p>
+                            </blockquote>
+                            <div className="mt-auto flex items-center gap-3">
+                                <div className="h-10 w-10 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold bg-white/10">
+                                    {testimonial.name[0]}
+                                </div>
+                                <div>
+                                    <p className="font-semibold">{testimonial.name}</p>
+                                    <p className="text-sm text-blue-200">{testimonial.role}</p>
+                                </div>
                             </div>
                         </div>
                     ))}

@@ -48,12 +48,12 @@ export function ServicesGrid() {
                             viewport={{ once: true }}
                             transition={{ duration: 0.5, delay: index * 0.1 }}
                         >
-                            <div className="flex flex-col items-center text-center p-6 bg-card rounded-xl shadow-sm border hover:shadow-md transition-shadow h-full">
-                                <div className="p-3 bg-primary/10 rounded-full mb-4">
+                            <div className="flex flex-col items-center text-center p-6 bg-card rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 hover:ring-2 hover:ring-primary/50 h-full group">
+                                <div className="p-4 bg-orange-50 rounded-2xl mb-4 group-hover:bg-primary/10 transition-colors">
                                     <service.icon className="h-8 w-8 text-primary" />
                                 </div>
-                                <h3 className="text-xl font-semibold mb-2">{service.title}</h3>
-                                <p className="text-muted-foreground">{service.description}</p>
+                                <h3 className="text-xl font-bold mb-2 text-blue-950">{service.title}</h3>
+                                <p className="text-muted-foreground leading-relaxed">{service.description}</p>
                             </div>
                         </motion.div>
                     ))}

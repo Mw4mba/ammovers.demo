@@ -1,7 +1,7 @@
 import React from "react"
 import { useFormContext } from "react-hook-form"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator" // Need to create this or just use hr
+
 import { MapPin, Home, Package, Shield, Wrench, User, Calendar } from "lucide-react"
 
 export function StepSummary() {

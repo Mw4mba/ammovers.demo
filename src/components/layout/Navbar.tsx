@@ -2,15 +2,15 @@
 
 import * as React from "react"
 import Link from "next/link"
-import { Menu, X, Truck } from "lucide-react"
+import Image from "next/image"
+import { Menu, X, ChevronDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Container } from "@/components/ui/container"
 import { cn } from "@/lib/utils"
 import { motion, AnimatePresence } from "framer-motion"
+import { ServicesMenu } from "./ServicesMenu"
 
 const navigation = [
     { name: "Home", href: "/" },
-    { name: "Services", href: "/services" },
     { name: "Tracking", href: "/tracking" },
     { name: "About", href: "/about" },
     { name: "Contact", href: "/contact" },
@@ -18,95 +18,139 @@ const navigation = [
 
 export function Navbar() {
     const [isOpen, setIsOpen] = React.useState(false)
-    const [isScrolled, setIsScrolled] = React.useState(false)
-
-    React.useEffect(() => {
-        const handleScroll = () => {
-            setIsScrolled(window.scrollY > 10)
-        }
-        window.addEventListener("scroll", handleScroll)
-        return () => window.removeEventListener("scroll", handleScroll)
-    }, [])
+    const [activeMenu, setActiveMenu] = React.useState<string | null>(null)
 
     return (
-        <header
-            className={cn(
-                "fixed top-0 z-50 w-full transition-all duration-300",
-                isScrolled
-                    ? "bg-background/80 backdrop-blur-md border-b shadow-sm"
-                    : "bg-transparent"
-            )}
-        >
-            <Container>
-                <nav className="flex h-16 items-center justify-between">
-                    <Link href="/" className="flex items-center space-x-2">
-                        <Truck className="h-8 w-8 text-secondary" />
-                        <span className="text-xl font-bold text-primary">AM Movers</span>
+        <header className="fixed top-4 left-0 right-0 z-50 flex justify-center px-4">
+            <motion.nav
+                layout
+                className={cn(
+                    "relative flex flex-col overflow-hidden bg-white shadow-lg transition-colors",
+                    "w-full max-w-5xl rounded-[2rem]" // Increased border radius for pill shape
+                )}
+                onMouseLeave={() => setActiveMenu(null)}
+                transition={{ type: "spring", bounce: 0, duration: 0.3 }}
+            >
+                <div className="flex h-16 items-center justify-between px-6">
+                    {/* Logo */}
+                    <Link href="/" className="flex items-center mr-8 shrink-0">
+                        <div className="relative h-10 w-32 overflow-hidden">
+                            <Image
+                                src="/new-logo.png"
+                                alt="AM Movers"
+                                fill
+                                className="object-contain object-left"
+                                priority
+                            />
+                        </div>
                     </Link>
 
                     {/* Desktop Navigation */}
-                    <div className="hidden md:flex md:items-center md:space-x-6">
-                        {navigation.map((item) => (
+                    <div className="hidden md:flex md:items-center md:space-x-1 flex-1 justify-center">
+                        <Link
+                            href="/"
+                            className="px-4 py-2 text-sm font-medium text-foreground/80 hover:text-primary transition-colors rounded-full hover:bg-muted/50"
+                            onMouseEnter={() => setActiveMenu(null)}
+                        >
+                            Home
+                        </Link>
+
+                        <button
+                            className={cn(
+                                "flex items-center gap-1 px-4 py-2 text-sm font-medium transition-colors rounded-full hover:bg-muted/50 outline-none",
+                                activeMenu === "Services" ? "text-primary bg-muted/50" : "text-foreground/80 hover:text-primary"
+                            )}
+                            onMouseEnter={() => setActiveMenu("Services")}
+                        >
+                            Services
+                            <ChevronDown className={cn("h-4 w-4 transition-transform duration-200", activeMenu === "Services" && "rotate-180")} />
+                        </button>
+
+                        {navigation.slice(1).map((item) => (
                             <Link
                                 key={item.name}
                                 href={item.href}
-                                className="text-sm font-medium text-foreground/80 transition-colors hover:text-primary"
+                                className="px-4 py-2 text-sm font-medium text-foreground/80 hover:text-primary transition-colors rounded-full hover:bg-muted/50"
+                                onMouseEnter={() => setActiveMenu(null)}
                             >
                                 {item.name}
                             </Link>
                         ))}
-                        <Button asChild variant="default" size="sm">
+                    </div>
+
+                    {/* CTA & Mobile Menu Button */}
+                    <div className="flex items-center gap-2 ml-auto shrink-0">
+                        <Button asChild size="sm" className="rounded-full px-6 bg-[#F25C24] hover:bg-[#D94510] text-white font-bold shadow-md transition-all">
                             <Link href="/quote">Get a Quote</Link>
                         </Button>
-                    </div>
 
-                    {/* Mobile Menu Button */}
-                    <div className="flex md:hidden">
-                        <button
-                            type="button"
-                            className="text-foreground"
-                            onClick={() => setIsOpen(!isOpen)}
+                        <div className="md:hidden">
+                            <button
+                                type="button"
+                                className="p-2 text-foreground"
+                                onClick={() => setIsOpen(!isOpen)}
+                            >
+                                <span className="sr-only">Open main menu</span>
+                                {isOpen ? (
+                                    <X className="h-5 w-5" aria-hidden="true" />
+                                ) : (
+                                    <Menu className="h-5 w-5" aria-hidden="true" />
+                                )}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Expanding Content Area */}
+                <AnimatePresence>
+                    {activeMenu === "Services" && (
+                        <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: "auto" }}
+                            exit={{ opacity: 0, height: 0 }}
+                            transition={{ duration: 0.2 }}
+                            className="bg-white"
                         >
-                            <span className="sr-only">Open main menu</span>
-                            {isOpen ? (
-                                <X className="h-6 w-6" aria-hidden="true" />
-                            ) : (
-                                <Menu className="h-6 w-6" aria-hidden="true" />
-                            )}
-                        </button>
-                    </div>
-                </nav>
-            </Container>
+                            <ServicesMenu />
+                        </motion.div>
+                    )}
+                </AnimatePresence>
 
-            {/* Mobile Menu */}
-            <AnimatePresence>
-                {isOpen && (
-                    <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: "auto" }}
-                        exit={{ opacity: 0, height: 0 }}
-                        className="md:hidden bg-background border-b"
-                    >
-                        <Container className="py-4 space-y-4">
-                            {navigation.map((item) => (
-                                <Link
-                                    key={item.name}
-                                    href={item.href}
-                                    className="block text-base font-medium text-foreground hover:text-primary"
-                                    onClick={() => setIsOpen(false)}
-                                >
-                                    {item.name}
+                {/* Mobile Menu Overlay (Inside the pill for consistent look) */}
+                <AnimatePresence>
+                    {isOpen && (
+                        <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: "auto" }}
+                            exit={{ opacity: 0, height: 0 }}
+                            className="md:hidden border-t"
+                        >
+                            <div className="p-4 space-y-4">
+                                <Link href="/" className="block text-base font-medium text-foreground hover:text-primary" onClick={() => setIsOpen(false)}>
+                                    Home
                                 </Link>
-                            ))}
-                            <Button asChild className="w-full">
-                                <Link href="/quote" onClick={() => setIsOpen(false)}>
-                                    Get a Quote
-                                </Link>
-                            </Button>
-                        </Container>
-                    </motion.div>
-                )}
-            </AnimatePresence>
+                                <div className="space-y-2 pl-4 border-l-2 border-muted">
+                                    <p className="text-sm font-semibold text-muted-foreground mb-2">Services</p>
+                                    <Link href="/services/residential" className="block text-sm text-foreground/80 hover:text-primary" onClick={() => setIsOpen(false)}>Residential Moving</Link>
+                                    <Link href="/services/office" className="block text-sm text-foreground/80 hover:text-primary" onClick={() => setIsOpen(false)}>Office Relocation</Link>
+                                    <Link href="/services/packing" className="block text-sm text-foreground/80 hover:text-primary" onClick={() => setIsOpen(false)}>Packing Services</Link>
+                                    <Link href="/services/storage" className="block text-sm text-foreground/80 hover:text-primary" onClick={() => setIsOpen(false)}>Storage Solutions</Link>
+                                </div>
+                                {navigation.slice(1).map((item) => (
+                                    <Link
+                                        key={item.name}
+                                        href={item.href}
+                                        className="block text-base font-medium text-foreground hover:text-primary"
+                                        onClick={() => setIsOpen(false)}
+                                    >
+                                        {item.name}
+                                    </Link>
+                                ))}
+                            </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+            </motion.nav>
         </header>
     )
 }
