@@ -119,7 +119,7 @@ export function ServicesGrid() {
                     </p>
                 </div>
 
-                <div className="flex flex-col gap-24 md:gap-32">
+                <div className="flex flex-col gap-12 md:gap-32">
                     {services.map((service, index) => (
                         <div
                             key={service.title}
@@ -143,13 +143,13 @@ export function ServicesGrid() {
                                     }}
                                 >
                                     <service.icon className="h-16 w-16 mb-6 text-white" />
-                                    <h3 className="text-2xl font-bold text-center leading-tight">{service.title}</h3>
+                                    <h3 className="text-xl md:text-2xl font-bold text-center leading-tight">{service.title}</h3>
                                 </div>
                             </div>
 
                             {/* Text Content */}
                             <div className="service-text max-w-md text-center md:text-left z-10">
-                                <p className="text-xl md:text-2xl text-blue-100 leading-relaxed">
+                                <p className="text-lg md:text-2xl text-blue-100 leading-relaxed">
                                     {service.description}
                                 </p>
                             </div>
