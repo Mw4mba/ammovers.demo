@@ -39,65 +39,43 @@ export function ScrollAnimationSection() {
                 }
             })
 
-            // Phase 1: Truck enters from left to center-left position (0% - 20%)
+            // Phase 1: Simultaneous Entry (Truck from left, Text 1 from right)
             tl.to(truckRef.current, {
-                xPercent: -25, // Truck more towards center (was -50)
+                xPercent: -25,
                 ease: "none",
-                duration: 0.8
-            })
-
-                // Slight pause when truck is positioned (20% - 25%)
-                .to({}, { duration: 0.2 })
-
-                // Phase 2: Text 1 slides in from right closer to center (25% - 40%)
+                duration: 1
+            }, "entry")
                 .to(text1Ref.current, {
-                    xPercent: -20, // Text closer to center (was 0)
+                    xPercent: -20,
                     opacity: 1,
                     ease: "power2.out",
-                    duration: 0.6
-                })
+                    duration: 1
+                }, "entry")
 
-                // Hold phase - pause for reading (40% - 50%)
-                .to({}, { duration: 0.4 })
+                // Phase 2: Hold for reading
+                .to({}, { duration: 0.5 })
 
-                // Phase 3: Text 1 exits back to the right (50% - 60%)
+                // Phase 3: Synchronized Transition (Truck moves right, Text 1 exits right, Text 2 enters from left)
+                .to(truckRef.current, {
+                    xPercent: 50,
+                    ease: "none",
+                    duration: 1
+                }, "transition")
                 .to(text1Ref.current, {
                     xPercent: 100,
                     opacity: 0,
                     ease: "power2.in",
-                    duration: 0.5
-                })
-
-                // Phase 4: Truck continues moving to the right side of screen (60% - 75%)
-                .to(truckRef.current, {
-                    xPercent: 50, // Truck on right side of screen
-                    ease: "none",
-                    duration: 0.6
-                })
-
-                // Phase 5: Text 2 slides in from left (75% - 85%) - positioned on left side, away from truck
+                    duration: 1
+                }, "transition")
                 .to(text2Ref.current, {
                     xPercent: 0,
                     opacity: 1,
                     ease: "power2.out",
-                    duration: 0.5
-                })
+                    duration: 1
+                }, "transition")
 
-                // Hold phase - pause for reading (85% - 90%)
-                .to({}, { duration: 0.2 })
-
-                // Phase 6: Truck exits right, Text 2 exits back to left (90% - 100%)
-                .to(truckRef.current, {
-                    xPercent: 120,
-                    ease: "power1.in",
-                    duration: 0.5
-                }, "exit")
-                .to(text2Ref.current, {
-                    xPercent: -100,
-                    opacity: 0,
-                    ease: "power1.in",
-                    duration: 0.4
-                }, "exit")
+                // Phase 4: Final Hold (Stay in position)
+                .to({}, { duration: 0.5 })
         }, sectionRef)
 
         return () => ctx.revert()
@@ -181,7 +159,7 @@ export function ScrollAnimationSection() {
                 </div>
 
                 {/* Scroll indicator */}
-                <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-muted-foreground/60 animate-bounce">
+                <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-muted-foreground/60 animate-bounce z-20">
                     <span className="text-sm font-medium">Scroll</span>
                     <svg
                         className="w-5 h-5"
@@ -197,6 +175,8 @@ export function ScrollAnimationSection() {
                         />
                     </svg>
                 </div>
+
+
             </div>
         </section>
     )
