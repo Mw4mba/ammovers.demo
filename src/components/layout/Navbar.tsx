@@ -55,7 +55,8 @@ export function Navbar() {
                             Home
                         </Link>
 
-                        <button
+                        <Link
+                            href="/services"
                             className={cn(
                                 "flex items-center gap-1 px-4 py-2 text-sm font-medium transition-colors rounded-full hover:bg-muted/50 outline-none",
                                 activeMenu === "Services" ? "text-primary bg-muted/50" : "text-foreground/80 hover:text-primary"
@@ -64,7 +65,7 @@ export function Navbar() {
                         >
                             Services
                             <ChevronDown className={cn("h-4 w-4 transition-transform duration-200", activeMenu === "Services" && "rotate-180")} />
-                        </button>
+                        </Link>
 
                         {navigation.slice(1).map((item) => (
                             <Link
@@ -123,14 +124,17 @@ export function Navbar() {
                             initial={{ opacity: 0, height: 0 }}
                             animate={{ opacity: 1, height: "auto" }}
                             exit={{ opacity: 0, height: 0 }}
-                            className="md:hidden border-t"
+                            className="md:hidden min-h-[50vh] flex flex-col items-center justify-center"
                         >
-                            <div className="p-4 space-y-4">
+                            <div className="p-4 space-y-6 text-center w-full">
                                 <Link href="/" className="block text-base font-medium text-foreground hover:text-primary" onClick={() => setIsOpen(false)}>
                                     Home
                                 </Link>
-                                <div className="space-y-2 pl-4 border-l-2 border-muted">
-                                    <p className="text-sm font-semibold text-muted-foreground mb-2">Services</p>
+                                <div className="space-y-4">
+                                    <div className="flex items-center justify-center gap-1 text-base font-medium text-foreground">
+                                        Services
+                                        <ChevronDown className="h-4 w-4" />
+                                    </div>
                                     <Link href="/services/residential" className="block text-sm text-foreground/80 hover:text-primary" onClick={() => setIsOpen(false)}>Residential Moving</Link>
                                     <Link href="/services/office" className="block text-sm text-foreground/80 hover:text-primary" onClick={() => setIsOpen(false)}>Office Relocation</Link>
                                     <Link href="/services/packing" className="block text-sm text-foreground/80 hover:text-primary" onClick={() => setIsOpen(false)}>Packing Services</Link>
